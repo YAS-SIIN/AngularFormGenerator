@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { FormModel } from '../models/forms-model';
-import { RolesModel } from '../models/roles-model';
-import { FormCreatorService } from '../services/formcreator/form-creator.service';
-import { SharedService } from '../services/shared/shared.service';
+import { FormModel } from '../../models/forms-model';
+import { RolesModel } from '../../models/roles-model';
+import { FormCreatorService } from '../../services/formcreator/form-creator.service';
+import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
-  selector: 'app-formcreator',
-  templateUrl: './formcreator.component.html',
-  styleUrls: ['./formcreator.component.css'],
+  selector: 'app-formelements',
+  templateUrl: './formelements.component.html',
+  styleUrls: ['./formelements.component.css'],
 })
-export class FormCreatorComponent {
+export class FormElementsComponent {
   title = 'BugloosTest';
   SaveMode = 'New';
   _formCreatorService: FormCreatorService; 

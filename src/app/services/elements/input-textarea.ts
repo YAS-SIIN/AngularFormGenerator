@@ -1,5 +1,5 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class InputTextarea extends ElementsBase{
-  controlType = 'textarea';
+  override controlType = 'textarea';
 }

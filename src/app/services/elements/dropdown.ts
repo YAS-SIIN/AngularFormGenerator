@@ -1,5 +1,5 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class Dropdown extends ElementsBase{
-  controlType = 'dropdown';
+  override controlType = 'dropdown';
 }

@@ -1,0 +1,57 @@
+<div [formGroup]="form" class="form-group">
+
+  <div [ngSwitch]="input.controlType">
+
+    <div *ngSwitchDefault class="row">
+ 
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>{{input.displayname}}</mat-label>
+          <input matInput [formControlName]="input.fieldname" [id]="input.fieldname" [type]="input.inputtype">
+       </mat-form-field>  
+ 
+       
+
+    </div>
+
+
+
+    <div *ngSwitchCase="'dropdown'" class="row">
+  
+      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label [attr.for]="input.fieldname">{{input.displayname}}</mat-label>
+      <mat-select matInput [id]="input.fieldname" [formControlName]="input.fieldname">
+        <option *ngFor="let opt of input.options" [value]="opt.key">{{opt.value}}</option>
+      </mat-select>
+    </mat-form-field>  
+    </div>
+
+    <div *ngSwitchCase="'checkbox'" class="row">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <section class="example-section">
+          <h4>Select :</h4>
+          <p><mat-checkbox [formControlName]="input.fieldname" [id]="input.fieldname">{{input.displayname}}</mat-checkbox></p> 
+        </section>
+ 
+    </mat-form-field>  
+    </div>
+
+    <div *ngSwitchCase="'radio'" class="row">
+      <mat-form-field class="example-full-width" appearance="fill">
+      
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button *ngFor="let opt of input.options" [value]="opt.key">{{opt.value}}</mat-radio-button> 
+      </mat-radio-group> 
+    </mat-form-field>  
+    </div>
+
+    <div *ngSwitchCase="'textarea'" class="row">
+      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label [attr.for]="input.fieldname">{{input.displayname}}</mat-label>
+      <textarea matInput [formControlName]="input.fieldname" [id]="input.fieldname" rows="5"></textarea>
+    </mat-form-field>  
+    </div>
+    
+
+  </div>
+
+</div>

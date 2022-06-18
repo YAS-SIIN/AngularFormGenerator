@@ -16,14 +16,21 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon'
+import { MatRadioModule } from '@angular/material/radio'
 
 import { FormCreatorComponent } from './formcreator/formcreator.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ElementGeneratorComponent } from './elementgenerator/elementgenerator.component';
+import { FormViewerComponent } from './formcreator/form-viewer/formviewer.component';
+import { FormElementsComponent } from './formcreator/formelements/formelements.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormCreatorComponent
+    FormCreatorComponent,
+    FormViewerComponent,
+    ElementGeneratorComponent,
+    FormElementsComponent,
   ],
   imports: [
 
@@ -42,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
+    MatRadioModule,
 
     HttpClientModule,
     

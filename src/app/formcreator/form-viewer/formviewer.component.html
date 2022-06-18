@@ -1,0 +1,22 @@
+<mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{SelectedFormModel.FormName}}
+    </mat-panel-title> 
+  </mat-expansion-panel-header>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+    <div *ngFor="let formField of formFields" class="form-group">
+      <app-elementgenerator [input]="formField" [form]="form"></app-elementgenerator>
+    </div>
+
+    <div class="form-group">
+      <button  mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
+    </div>
+  </form>
+
+  <div *ngIf="payLoad" class="form-group">
+    <strong>Here's Your Data</strong><br>{{payLoad}}
+  </div>
+ 
+</mat-expansion-panel>

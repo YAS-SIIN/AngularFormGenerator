@@ -1,5 +1,5 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class Checkbox extends ElementsBase{
-  controlType = 'checkbox';
+  override controlType = 'checkbox';
 }

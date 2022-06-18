@@ -1,6 +1,6 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class InputDate extends ElementsBase{
-  controlType = 'textbox';
-  inputtype = "date";
+  override controlType = 'textbox';
+  override inputtype = "date";
 }

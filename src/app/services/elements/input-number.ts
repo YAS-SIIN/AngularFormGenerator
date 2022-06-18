@@ -1,6 +1,6 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class InputNumber extends ElementsBase{
-  controlType = 'textbox';
-  inputtype = "Number";
+  override controlType = 'textbox';
+  override inputtype = "Number";
 }

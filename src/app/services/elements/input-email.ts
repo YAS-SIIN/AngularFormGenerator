@@ -1,6 +1,6 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class InputEmail extends ElementsBase{
-  controlType = 'textbox';
-  inputtype = "email"
+  override controlType = 'textbox';
+  override inputtype = "email"
 }

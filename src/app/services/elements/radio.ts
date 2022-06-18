@@ -1,5 +1,5 @@
-import { ElementsBase } from './ElementsBase';
+import { ElementsBase } from './elementsbase';
 
 export class Radio extends ElementsBase{
-  controlType = 'radio';
+  override controlType = 'radio';
 }
