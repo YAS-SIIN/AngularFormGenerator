@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms'; 
 import { Component, Input, OnInit } from '@angular/core';
-import { ElementsBase } from '../services/elements';
+import { ElementModel } from '../models/element-model';
+ 
 
 @Component({
   selector: 'app-elementgenerator',
@@ -11,7 +12,7 @@ export class ElementGeneratorComponent implements OnInit {
   title:string='BugloosTest ElementGenerator';
 
   @Input()
-  input!: ElementsBase;
+  input!: ElementModel;
   @Input() form!: FormGroup;
 
   payLoad = ' ';
@@ -21,6 +22,6 @@ export class ElementGeneratorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get isValid() { return this.form.controls[this.input.fieldname].valid; }
+  get isValid() { return this.form.controls[this.input.FieldName].valid; }
 
 }

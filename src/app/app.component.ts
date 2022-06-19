@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormModel } from './models/forms-model';
+import { FormBuilder } from '@angular/forms'; 
 
 @Component({
   selector: 'app-root',

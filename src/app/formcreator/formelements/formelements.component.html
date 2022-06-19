@@ -1,11 +1,11 @@
 
 <div class="card-container">
   <div class="grid-toolbars" *ngIf="plnFirstPage">
-    <button  mat-raised-button color="primary" (click)="OpenCreateEditFormPanel()">New Form</button>  
+    <button  mat-raised-button color="primary" (click)="onOpenCreateEditFormPanel()">New {{title}}</button>  
   </div>
 
-  <div class="grid-toolbars" *ngIf="pblBack">
-    <button  mat-raised-button color="warn" (click)="OpenGridPanel()">Back</button>  
+  <div class="grid-toolbars" *ngIf="pblBackElement">
+    <button  mat-raised-button color="warn" (click)="onBack()">Back {{title}}</button>  
   </div>
  
 </div>
@@ -16,31 +16,36 @@
   <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Data
+          {{title}} Data
         </mat-panel-title> 
       </mat-expansion-panel-header>
      
-      <table mat-table matSort class="mat-elevation-z8" style="width: 100%;" [dataSource]="FormList" >
-          <ng-container matColumnDef="FormName">
-              <th  mat-header-cell *matHeaderCellDef > Form Name </th>
-              <td mat-cell *matCellDef="let formrow"> {{formrow.FormName}} </td>
+      <table mat-table matSort class="mat-elevation-z8" style="width: 100%;" [dataSource]="ElementList" >
+          <ng-container matColumnDef="FieldName">
+              <th  mat-header-cell *matHeaderCellDef > Field Name </th>
+              <td mat-cell *matCellDef="let elementrow"> {{elementrow.FieldName}} </td>
           </ng-container>  
-          <ng-container matColumnDef="Desciption">
-              <th  mat-header-cell *matHeaderCellDef > Desciption </th>
-              <td mat-cell *matCellDef="let formrow"> {{formrow.Desciption}} </td>
+          <ng-container matColumnDef="DisplayName">
+              <th  mat-header-cell *matHeaderCellDef > Display Name </th>
+              <td mat-cell *matCellDef="let elementrow"> {{elementrow.DisplayName}} </td>
           </ng-container>   
-          <ng-container  matColumnDef="EditDelete">
+          <ng-container matColumnDef="ElementType">
+              <th  mat-header-cell *matHeaderCellDef > Element Type </th>
+              <td mat-cell *matCellDef="let elementrow"> {{GetElementTypeById(elementrow.ElementType)}} </td>
+          </ng-container>  
+          <ng-container matColumnDef="Required">
+              <th  mat-header-cell *matHeaderCellDef > Required </th>
+              <td mat-cell *matCellDef="let elementrow"> {{elementrow.Required}} </td>
+          </ng-container>   
+          <ng-container  matColumnDef="Actions">
             <th  mat-header-cell *matHeaderCellDef > Actions </th>
-            <td mat-cell *matCellDef="let formrow">
-              <button mat-icon-button color="warn" (click)="onDelete(formrow)" aria-label="Example icon-button with a delete icon">
+            <td mat-cell *matCellDef="let elementrow">
+              <button mat-icon-button color="warn" (click)="onDelete(elementrow)" aria-label="Example icon-button with a delete icon">
                 <mat-icon>delete</mat-icon>
               </button>
-              <button mat-icon-button (click)="onEdit(formrow)" aria-label="Example icon-button with a edit icon">
+              <button mat-icon-button (click)="onEdit(elementrow)" aria-label="Example icon-button with a edit icon">
                 <mat-icon>edit</mat-icon>
-              </button> 
-              <button mat-icon-button color="primary" (click)="onCreateEditElements(formrow)" aria-label="Example icon-button with a edit icon">
-                <mat-icon>calendar_view_day</mat-icon>
-              </button> 
+              </button>  
             </td>
   
           </ng-container>   
@@ -56,42 +61,75 @@
 </div>
 
 <br>
-<div class="row" id="plnCreateEditForm" *ngIf="plnCreateEditForm" class="panel">
+<div class="row" id="plnCreateEditForm" *ngIf="plnCreateEditElements" class="panel">
 
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Create - Edit
+            {{title}} Create - Edit
           </mat-panel-title> 
         </mat-expansion-panel-header>
        
     <div class="row">
      <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Form Name</mat-label>
-      <input matInput [(ngModel)]="NewFormModel.FormName" maxlength="100" #refFormaName="ngModel" id="FormaName" required>
+      <mat-label>Field Name</mat-label>
+      <input matInput [(ngModel)]="NewElementModel.FieldName" maxlength="100" #refFieldName="ngModel" id="FieldName" required>
     </mat-form-field>  
     </div>
     <div class="row">
       <mat-form-field class="example-full-width" appearance="fill">
-       <mat-label>Desciption</mat-label>
-       <textarea matInput [(ngModel)]="NewFormModel.Desciption" #refDesciption="ngModel" id="Desciption"></textarea>
+       <mat-label>Display Name</mat-label>
+       <input matInput [(ngModel)]="NewElementModel.DisplayName" maxlength="100" #refDisplayName="ngModel" id="DisplayName" required>
      </mat-form-field>  
      </div>
-
-         <div class="row">
+     <div class="row">
+       <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Value</mat-label>
+        <input matInput [(ngModel)]="NewElementModel.Value" maxlength="100" #refValue="ngModel" id="Value">
+      </mat-form-field>  
+      </div>
+      <div class="row">
+        <mat-form-field class="example-full-width" appearance="fill">
+         <mat-label>Validator</mat-label>
+         <input matInput [(ngModel)]="NewElementModel.Validator" maxlength="100" #refValidator="ngModel" id="Validator">
+       </mat-form-field>  
+       </div>
+       <div class="row">
    
-          <mat-form-field class="example-full-width" appearance="fill">
-<mat-label>Role</mat-label>
- 
-<mat-select required name="Role" #refRole="ngModel" class="form-control" [(ngModel)]="NewFormModel.Role"> 
-  <mat-option *ngFor="let role of RoleList" [value]="role.Id">
-    {{role.RoleName}}
-  </mat-option> 
-</mat-select>  
-</mat-form-field>
-
+        <mat-form-field class="example-full-width" appearance="fill">
+     <mat-label>Element Type</mat-label> 
+     <mat-select required name="ElementType" #refElementType="ngModel" class="form-control" [(ngModel)]="NewElementModel.ElementType"> 
+       <mat-option *ngFor="let elementType of elementTypesSource" [value]="elementType.Id">
+         {{elementType.ElementName}}
+       </mat-option> 
+     </mat-select>  
+     </mat-form-field>
+     
+         </div>
+      <div class="row">
+        <mat-form-field class="example-full-width" appearance="fill">
+         <mat-label>Order</mat-label>
+         <input type="number" matInput [(ngModel)]="NewElementModel.Order" maxlength="100" #refOrder="ngModel" id="Order" required>
+       </mat-form-field>  
+       </div>
+    <div class="row">
+      <mat-form-field class="example-full-width" appearance="fill">
+       <mat-label>Description</mat-label>
+       <textarea matInput [(ngModel)]="NewElementModel.Description" #refDesciption="ngModel" id="Description"></textarea>
+     </mat-form-field>  
+     </div>
+     <div class="row"> 
+        <section class="example-section">  
+          <mat-checkbox [(ngModel)]="NewElementModel.Required" #refRequired="ngModel" id="Required">Required</mat-checkbox> 
+        </section> 
     </div>
-
+   <div class="row"> 
+    <label class="form-label">Options</label>
+    <ng-select [(ngModel)]="NewElementModel.Options" id="Options" items="editDropdownOptions" bindLabel="value" bindValue="key" addTag="addTagFn"
+    multiple="true" formControlName="options">
+  </ng-select>
+    </div>
+<br>
     
     <div Class="row">
 
@@ -99,7 +137,7 @@
         </div>
         <div Class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     
-          <button  mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+          <button  mat-raised-button color="primary" (click)="onSubmit()">Submit {{title}}</button>
     
         </div>
         <div Class="col-xs-12 col-sm-4 col-md-4 col-lg-4"> 

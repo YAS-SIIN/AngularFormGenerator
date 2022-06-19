@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { NumberInput } from '@angular/cdk/coercion';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { FormModel } from '../../models/forms-model';
-import { RolesModel } from '../../models/roles-model';
-import { FormCreatorService } from '../../services/formcreator/form-creator.service';
+import { ElementModel } from 'src/app/models/element-model';
+import { ElementTypeModel } from 'src/app/models/element-types';
+import { ElementsService } from 'src/app/services/elements/elements.service';
+import { FormModel } from '../../models/form-model';  
 import { SharedService } from '../../services/shared/shared.service';
 
 @Component({
@@ -11,106 +13,109 @@ import { SharedService } from '../../services/shared/shared.service';
   styleUrls: ['./formelements.component.css'],
 })
 export class FormElementsComponent {
-  title = 'BugloosTest';
-  SaveMode = 'New';
-  _formCreatorService: FormCreatorService; 
+  title = 'Element';
+  _elementsService: ElementsService; 
   _sharedService: SharedService;
-  pblBack = false;  
-  plnFirstPage = true; 
-  plnCreateEditForm = false; 
-  plnCreateEditElements = false; 
-
-  displayedColumns: string[] = ['FormName', 'Desciption', 'EditDelete'];
-  NewFormModel: FormModel = new FormModel(); 
  
-  RoleList!: RolesModel[];
-  FormList!: FormModel[]; 
+  SaveMode = 'New';
+  pblBackElement = false;  
+  plnFirstPage = true; 
+  plnCreateEditElements = false; 
+  pnlShowForms = false; 
+
+  displayedColumns: string[] = ['FieldName', 'DisplayName', 'ElementType','Required', 'Actions'];
+
+  @Input() 
+  SelectedFormModel: FormModel = new FormModel(); 
+  
+  NewElementModel: ElementModel = new ElementModel(); 
+  ElementList!: ElementModel[]; 
+  elementTypesSource!: ElementTypeModel[];
+  editDropdownOptions! : {key: string, value: string, tag?: boolean}[];
 
   constructor(
-    private formBuilder: FormBuilder,
-    formCreatorService: FormCreatorService,
-     sharedService: SharedService
-  ) {
-    this._formCreatorService = formCreatorService; 
+    private formBuilder: FormBuilder, elementsService: ElementsService, sharedService: SharedService) {
+    this._elementsService = elementsService; 
     this._sharedService = sharedService;
   }
 
-  ngOnInit(): void { 
-    this.GetRoleList();
-    this.GetFormList(); 
-   
+  ngOnInit(): void {  
+    this.GetElementList(); 
+    this.GetElementTypes();
+  }
+ 
+  GetElementList() {  
+   this.ElementList = this._elementsService.GetFormsList(this.SelectedFormModel.Id); 
   }
 
-  GetRoleList() {  
-    this.RoleList = this._formCreatorService.GetRolesList(); 
-  }
-  GetFormList() {  
-    this.FormList = this._formCreatorService.GetFormsList(); 
+  GetElementTypes(){
+    debugger;
+    this.elementTypesSource = this._elementsService.GetElementTypes();
   }
 
-  OpenCreateEditFormPanel() {
-    this.plnFirstPage = false;
-    this.plnCreateEditForm = true;
-    this.pblBack = true;
-    this.plnCreateEditElements = false;
+  GetElementTypeById(Id: number){
+    return this.elementTypesSource.filter(i=>i.Id == Id)[0].ElementName;
   }
 
-  OpenGridPanel() {
+  onOpenCreateEditFormPanel() {
+    this.plnFirstPage = false; 
+    this.pblBackElement = true;
+    this.plnCreateEditElements = true;
+    this.NewElementModel = new ElementModel();
+  }
+
+  onBack() {
     this.plnFirstPage = true;
-    this.pblBack = false;
-    this.plnCreateEditForm = false;
+    this.pblBackElement = false; 
     this.plnCreateEditElements = false;
   }
-
-
-  onEdit(SelectedRow: FormModel){ 
-    this.NewFormModel=SelectedRow;
+ 
+  onEdit(SelectedRow: ElementModel){ 
+    this.NewElementModel=SelectedRow;
     this.SaveMode = 'Edit';
-    this.OpenCreateEditFormPanel();
+    this.onOpenCreateEditFormPanel();
   }
  
   onDelete(SelectedRow: FormModel){
  
     if(confirm('Are you sure?')){
-      this.FormList = this.FormList.filter(f =>f.Id != SelectedRow.Id);
-      this._formCreatorService.SaveForm(this.FormList);
+     this.ElementList = this.ElementList.filter(f =>f.Id != SelectedRow.Id);
+      this._elementsService.SaveForm(this.ElementList);
   
       this._sharedService.toastSuccess('Action Done');
     }
         
   }
   
-  onCreateEditElements(SelectedRow: FormModel){
+  onCreateEditElements(){
     this.plnFirstPage = false;
-    this.pblBack = true;
-    this.plnCreateEditForm = false;
-    this.plnCreateEditElements = true;
-    this.NewFormModel=SelectedRow;  
+    this.pblBackElement = true; 
+    this.plnCreateEditElements = true;  
   }
   
   onSubmit() {
-    debugger
     if (this.SaveMode == 'New') {
-     const MaxId= Math.max.apply(Math, this.FormList.map(o => { return o.Id; }));
-     this.NewFormModel.Id=MaxId + 1;
-      this.FormList.push(this.NewFormModel); 
-    } else if (this.SaveMode == 'Edit') { 
-      this.FormList = this.FormList.map(a => {
-        if(a.Id !== this.NewFormModel?.Id){
-          return a;
-        }
-        else{
-          return this.NewFormModel;
-        }
-      })
-    }
-    
-    this._formCreatorService.SaveForm(this.FormList);
-
-    this.OpenGridPanel();
-    this.SaveMode = 'New';
-    this.NewFormModel = new FormModel();
-
+      const MaxId= Math.max.apply(Math, this.ElementList.map(o => { return o.Id; }));
+      this.NewElementModel.Id=MaxId + 1;
+      this.NewElementModel.FormId = this.SelectedFormModel.Id;
+       this.ElementList.push(this.NewElementModel); 
+     } else if (this.SaveMode == 'Edit') { 
+       this.ElementList = this.ElementList.map(a => {
+         if(a.Id !== this.NewElementModel?.Id){
+           return a;
+         }
+         else{
+           return this.NewElementModel;
+         }
+       });
+     }
+     
+     this._elementsService.SaveForm(this.ElementList);
+ 
+     this.onBack();
+     this.SaveMode = 'New';
+     this.NewElementModel = new ElementModel();
+ 
     this._sharedService.toastSuccess('Action Done');
   }
 }

@@ -1,22 +1,22 @@
 
 <div class="card-container">
-  <div class="grid-toolbars" *ngIf="plnFirstPage">
-    <button  mat-raised-button color="primary" (click)="OpenCreateEditFormPanel()">New Form</button>  
+  <div class="grid-toolbars" *ngIf="pnlFirstPage">
+    <button mat-raised-button color="primary" (click)="onOpenCreateEditFormPanel()">New {{title}}</button>  
   </div>
 
-  <div class="grid-toolbars" *ngIf="pblBack">
-    <button  mat-raised-button color="warn" (click)="OpenGridPanel()">Back</button>  
+  <div class="grid-toolbars" *ngIf="pnlBackForms">
+    <button mat-raised-button color="warn" (click)="onBackAll()">Back {{title}}</button>  
   </div>
  
 </div>
 <br>
 
-<div class="row" id="plnData" *ngIf="plnFirstPage" class="panel">
+<div class="row" id="pnlData" *ngIf="pnlFirstPage" class="panel">
 
   <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Data
+          {{title}} Data
         </mat-panel-title> 
       </mat-expansion-panel-header>
      
@@ -38,8 +38,11 @@
               <button mat-icon-button (click)="onEdit(formrow)" aria-label="Example icon-button with a edit icon">
                 <mat-icon>edit</mat-icon>
               </button> 
-              <button mat-icon-button color="primary" (click)="onCreateEditElements(formrow)" aria-label="Example icon-button with a edit icon">
-                <mat-icon>calendar_view_day</mat-icon>
+              <button mat-raised-button color="primary" (click)="onCreateEditElements(formrow)" aria-label="Example icon-button with a edit icon">
+                Elements
+              </button> 
+              <button mat-raised-button color="primary" (click)="onOpenFormviewer(formrow)" aria-label="Example icon-button with a edit icon">
+                ShowForm
               </button> 
             </td>
   
@@ -56,12 +59,12 @@
 </div>
 
 <br>
-<div class="row" id="plnCreateEditForm" *ngIf="plnCreateEditForm" class="panel">
+<div class="row" id="pnlCreateEditForm" *ngIf="pnlCreateEditForm" class="panel">
 
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Create - Edit
+            {{title}} Create - Edit
           </mat-panel-title> 
         </mat-expansion-panel-header>
        
@@ -80,9 +83,8 @@
 
          <div class="row">
    
-          <mat-form-field class="example-full-width" appearance="fill">
-<mat-label>Role</mat-label>
- 
+   <mat-form-field class="example-full-width" appearance="fill">
+<mat-label>Role</mat-label> 
 <mat-select required name="Role" #refRole="ngModel" class="form-control" [(ngModel)]="NewFormModel.Role"> 
   <mat-option *ngFor="let role of RoleList" [value]="role.Id">
     {{role.RoleName}}
@@ -99,7 +101,7 @@
         </div>
         <div Class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     
-          <button  mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+          <button  mat-raised-button color="primary" (click)="onSubmit()">Submit {{title}}</button>
     
         </div>
         <div Class="col-xs-12 col-sm-4 col-md-4 col-lg-4"> 
@@ -113,7 +115,12 @@
 
 
 
-<div class="row" id="plnCreateEditElements" *ngIf="plnCreateEditElements" class="panel">
+<div class="row" id="pnlElements" *ngIf="pnlElements" class="panel">
 
-  <app-formelements></app-formelements>
+  <app-formelements [SelectedFormModel]="NewFormModel"></app-formelements>
+</div>
+
+
+<div class="row" id="pnlFormView" *ngIf="pnlFormView" class="panel"> 
+  <app-formviewer [SelectedFormModel]="NewFormModel"></app-formviewer>
 </div>

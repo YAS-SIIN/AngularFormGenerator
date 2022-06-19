@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { FormModel } from '../models/forms-model';
-import { RolesModel } from '../models/roles-model';
-import { FormCreatorService } from '../services/formcreator/form-creator.service';
+import { FormModel } from '../models/form-model';
+import { RoleModel } from '../models/role-model';
+import { FormService } from '../services/form/form.service';
 import { SharedService } from '../services/shared/shared.service';
 
 @Component({
@@ -11,27 +11,30 @@ import { SharedService } from '../services/shared/shared.service';
   styleUrls: ['./formcreator.component.css'],
 })
 export class FormCreatorComponent {
-  title = 'BugloosTest';
-  SaveMode = 'New';
-  _formCreatorService: FormCreatorService; 
+  title = 'Form';
+
+  _formService: FormService; 
   _sharedService: SharedService;
-  pblBack = false;  
-  plnFirstPage = true; 
-  plnCreateEditForm = false; 
-  plnCreateEditElements = false; 
+  
+  SaveMode = 'New'; 
+  pnlBackForms = false;  
+  pnlFirstPage = true; 
+  pnlCreateEditForm = false; 
+  pnlElements = false; 
+  pnlFormView = false; 
 
   displayedColumns: string[] = ['FormName', 'Desciption', 'EditDelete'];
   NewFormModel: FormModel = new FormModel(); 
  
-  RoleList!: RolesModel[];
+  RoleList!: RoleModel[];
   FormList!: FormModel[]; 
 
   constructor(
     private formBuilder: FormBuilder,
-    formCreatorService: FormCreatorService,
+    formService: FormService,
      sharedService: SharedService
   ) {
-    this._formCreatorService = formCreatorService; 
+    this._formService = formService; 
     this._sharedService = sharedService;
   }
 
@@ -42,38 +45,48 @@ export class FormCreatorComponent {
   }
 
   GetRoleList() {  
-    this.RoleList = this._formCreatorService.GetRolesList(); 
+    this.RoleList = this._formService.GetRolesList(); 
   }
   GetFormList() {  
-    this.FormList = this._formCreatorService.GetFormsList(); 
+    this.FormList = this._formService.GetFormsList(); 
   }
 
-  OpenCreateEditFormPanel() {
-    this.plnFirstPage = false;
-    this.plnCreateEditForm = true;
-    this.pblBack = true;
-    this.plnCreateEditElements = false;
+  onOpenCreateEditFormPanel() {
+    this.pnlFirstPage = false;
+    this.pnlCreateEditForm = true;
+    this.pnlBackForms = true;
+    this.pnlElements = false;
+    this.NewFormModel = new FormModel();
   }
 
-  OpenGridPanel() {
-    this.plnFirstPage = true;
-    this.pblBack = false;
-    this.plnCreateEditForm = false;
-    this.plnCreateEditElements = false;
+  onBackAll() {
+    this.pnlFirstPage = true;
+    this.pnlBackForms = false;
+    this.pnlCreateEditForm = false;
+    this.pnlElements = false;
+    this.pnlFormView = false;
   }
 
-
+  
+  onOpenFormviewer(SelectedRow: FormModel){
+    this.pnlFirstPage = false;
+    this.pnlBackForms = true;
+    this.pnlCreateEditForm = false;
+    this.pnlFormView = true;
+    this.NewFormModel=SelectedRow;  
+  }
+  
   onEdit(SelectedRow: FormModel){ 
     this.NewFormModel=SelectedRow;
     this.SaveMode = 'Edit';
-    this.OpenCreateEditFormPanel();
+    this.onOpenCreateEditFormPanel();
   }
  
   onDelete(SelectedRow: FormModel){
  
     if(confirm('Are you sure?')){
       this.FormList = this.FormList.filter(f =>f.Id != SelectedRow.Id);
-      this._formCreatorService.SaveForm(this.FormList);
+      this._formService.SaveForm(this.FormList);
   
       this._sharedService.toastSuccess('Action Done');
     }
@@ -81,15 +94,15 @@ export class FormCreatorComponent {
   }
   
   onCreateEditElements(SelectedRow: FormModel){
-    this.plnFirstPage = false;
-    this.pblBack = true;
-    this.plnCreateEditForm = false;
-    this.plnCreateEditElements = true;
+    this.pnlFirstPage = false;
+    this.pnlBackForms = true;
+    this.pnlCreateEditForm = false;
+    this.pnlElements = true;
     this.NewFormModel=SelectedRow;  
   }
   
   onSubmit() {
-    debugger
+     
     if (this.SaveMode == 'New') {
      const MaxId= Math.max.apply(Math, this.FormList.map(o => { return o.Id; }));
      this.NewFormModel.Id=MaxId + 1;
@@ -102,12 +115,12 @@ export class FormCreatorComponent {
         else{
           return this.NewFormModel;
         }
-      })
+      });
     }
     
-    this._formCreatorService.SaveForm(this.FormList);
+    this._formService.SaveForm(this.FormList);
 
-    this.OpenGridPanel();
+    this.onBackAll();
     this.SaveMode = 'New';
     this.NewFormModel = new FormModel();
 

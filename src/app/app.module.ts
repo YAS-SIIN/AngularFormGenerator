@@ -17,12 +17,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon'
 import { MatRadioModule } from '@angular/material/radio'
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { FormCreatorComponent } from './formcreator/formcreator.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ElementGeneratorComponent } from './elementgenerator/elementgenerator.component';
 import { FormViewerComponent } from './formcreator/form-viewer/formviewer.component';
 import { FormElementsComponent } from './formcreator/formelements/formelements.component';
+ 
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { FormElementsComponent } from './formcreator/formelements/formelements.c
     MatToolbarModule,
     MatIconModule,
     MatRadioModule,
-
+    MatCheckboxModule,
+ 
     HttpClientModule,
     
     ToastrModule.forRoot(),

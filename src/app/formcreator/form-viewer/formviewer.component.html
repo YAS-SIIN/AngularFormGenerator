@@ -6,8 +6,8 @@
   </mat-expansion-panel-header>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-    <div *ngFor="let formField of formFields" class="form-group">
-      <app-elementgenerator [input]="formField" [form]="form"></app-elementgenerator>
+    <div *ngFor="let element of ElementList" class="form-group">
+      <app-elementgenerator [input]="element" [form]="form"></app-elementgenerator>
     </div>
 
     <div class="form-group">
@@ -16,7 +16,7 @@
   </form>
 
   <div *ngIf="payLoad" class="form-group">
-    <strong>Here's Your Data</strong><br>{{payLoad}}
+    <strong>Data</strong><br>{{payLoad}}
   </div>
  
 </mat-expansion-panel>
