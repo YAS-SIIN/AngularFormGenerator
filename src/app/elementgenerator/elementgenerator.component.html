@@ -1,6 +1,6 @@
 <div [formGroup]="form" class="form-group">
 
-  <div [ngSwitch]="input.ElementType">
+  <div [ngSwitch]="elementTypesList[input.ElementType]">
 
     <div *ngSwitchDefault class="row">
  
@@ -51,7 +51,7 @@
     <div *ngSwitchCase="'Checkbox'" class="row">
  
         <section class="example-section"> 
-          <mat-checkbox [formControlName]="input.FieldName" [id]="input.FieldName">{{input.DisplayName}}</mat-checkbox><
+          <mat-checkbox [formControlName]="input.FieldName" [id]="input.FieldName">{{input.DisplayName}}</mat-checkbox>
         </section>
   
     </div>

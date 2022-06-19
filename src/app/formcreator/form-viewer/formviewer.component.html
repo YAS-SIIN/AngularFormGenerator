@@ -1,22 +1,79 @@
+<div class="card-container">
+  <div class="grid-toolbars" *ngIf="plnFirstPage">
+    <button  mat-raised-button color="primary" (click)="onOpenCreateEditFormViewrPanel()">New {{title}} Data</button>  
+  </div>
+
+  <div class="grid-toolbars" *ngIf="pblBackFormViewer">
+    <button  mat-raised-button color="warn" (click)="onBack()">Back {{title}}</button>  
+  </div>
+ 
+</div>
+<br>
+ 
+<div class="row" id="plnDataElements" *ngIf="plnFirstPage" class="panel">
+
+  <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{title}} Data
+        </mat-panel-title> 
+      </mat-expansion-panel-header>
+     
+      <table mat-table matSort class="mat-elevation-z8" style="width: 100%;" [dataSource]="formlistDate" >
+ 
+        <ng-container *ngFor="let columnName of displayedColumns" matColumnDef="{{columnName}}">
+            <th mat-header-cell *matHeaderCellDef > {{columnName}} </th>
+            <td mat-cell *matCellDef="let formField">
+       
+            <div *ngIf="columnName != 'Actions'"> 
+                {{formField[columnName]}}  
+            </div>
+            
+            <div *ngIf="columnName == 'Actions'">   
+                <button mat-icon-button color="warn" (click)="onDelete(formField)" aria-label="Example icon-button with a delete icon">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onEdit(formField)" aria-label="Example icon-button with a edit icon">
+                  <mat-icon>edit</mat-icon>
+                </button>   
+          </div>
+          </td>
+         
+        </ng-container>   
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+ 
+      <!-- <mat-paginator [length]="paytotalCount" [pageSize]="paginationService.pageSize" [pageSizeOptions]="paginationService.selectItemsPerPage"
+          (page)="payonPageSwitch.emit($event)">
+      </mat-paginator> -->
+  
+  </mat-expansion-panel>
+
+</div>
+
+<br>
+<br>
+<div class="row" id="pnlCreateEditForm" *ngIf="plnCreateEditFormViewer" class="panel">
+
 <mat-expansion-panel [expanded]="true">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      {{SelectedFormModel.FormName}}
+      {{title}} Create - Edit
     </mat-panel-title> 
   </mat-expansion-panel-header>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-    <div *ngFor="let element of ElementList" class="form-group">
+    <div *ngFor="let element of elementList" class="form-group">
       <app-elementgenerator [input]="element" [form]="form"></app-elementgenerator>
     </div>
 
     <div class="form-group">
-      <button  mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
+      <button  mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit {{title}}</button>
     </div>
   </form>
 
-  <div *ngIf="payLoad" class="form-group">
-    <strong>Data</strong><br>{{payLoad}}
-  </div>
+ 
  
 </mat-expansion-panel>
+</div>

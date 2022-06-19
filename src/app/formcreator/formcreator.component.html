@@ -29,7 +29,7 @@
               <th  mat-header-cell *matHeaderCellDef > Desciption </th>
               <td mat-cell *matCellDef="let formrow"> {{formrow.Desciption}} </td>
           </ng-container>   
-          <ng-container  matColumnDef="EditDelete">
+          <ng-container  matColumnDef="Actions">
             <th  mat-header-cell *matHeaderCellDef > Actions </th>
             <td mat-cell *matCellDef="let formrow">
               <button mat-icon-button color="warn" (click)="onDelete(formrow)" aria-label="Example icon-button with a delete icon">

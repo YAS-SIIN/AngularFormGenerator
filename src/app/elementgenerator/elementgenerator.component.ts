@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms'; 
 import { Component, Input, OnInit } from '@angular/core';
 import { ElementModel } from '../models/element-model';
+import { ElementTypes } from '../models/element-types';
  
 
 @Component({
@@ -11,14 +12,19 @@ import { ElementModel } from '../models/element-model';
 export class ElementGeneratorComponent implements OnInit {
   title:string='BugloosTest ElementGenerator';
 
+  elementTypesList = ElementTypes;
+
   @Input()
   input!: ElementModel;
+  
   @Input() form!: FormGroup;
-
+ 
   payLoad = ' ';
 
-  constructor() { }
+  constructor() {
 
+   }
+ 
   ngOnInit(): void {
   }
 

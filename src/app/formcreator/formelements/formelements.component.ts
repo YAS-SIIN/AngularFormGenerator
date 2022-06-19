@@ -2,7 +2,7 @@ import { NumberInput } from '@angular/cdk/coercion';
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ElementModel } from 'src/app/models/element-model';
-import { ElementTypeModel } from 'src/app/models/element-types';
+import { ElementTypeModel, ElementTypes } from 'src/app/models/element-types';
 import { ElementsService } from 'src/app/services/elements/elements.service';
 import { FormModel } from '../../models/form-model';  
 import { SharedService } from '../../services/shared/shared.service';
@@ -33,6 +33,8 @@ export class FormElementsComponent {
   elementTypesSource!: ElementTypeModel[];
   editDropdownOptions! : {key: string, value: string, tag?: boolean}[];
 
+  elementTypesList = ElementTypes;
+
   constructor(
     private formBuilder: FormBuilder, elementsService: ElementsService, sharedService: SharedService) {
     this._elementsService = elementsService; 
@@ -52,11 +54,7 @@ export class FormElementsComponent {
     debugger;
     this.elementTypesSource = this._elementsService.GetElementTypes();
   }
-
-  GetElementTypeById(Id: number){
-    return this.elementTypesSource.filter(i=>i.Id == Id)[0].ElementName;
-  }
-
+ 
   onOpenCreateEditFormPanel() {
     this.plnFirstPage = false; 
     this.pblBackElement = true;

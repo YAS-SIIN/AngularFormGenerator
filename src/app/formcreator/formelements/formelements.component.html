@@ -11,7 +11,7 @@
 </div>
 <br>
 
-<div class="row" id="plnData" *ngIf="plnFirstPage" class="panel">
+<div class="row" id="plnDataElements" *ngIf="plnFirstPage" class="panel">
 
   <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
@@ -31,7 +31,7 @@
           </ng-container>   
           <ng-container matColumnDef="ElementType">
               <th  mat-header-cell *matHeaderCellDef > Element Type </th>
-              <td mat-cell *matCellDef="let elementrow"> {{GetElementTypeById(elementrow.ElementType)}} </td>
+              <td mat-cell *matCellDef="let elementrow"> {{elementTypesList[elementrow.ElementType]}} </td>
           </ng-container>  
           <ng-container matColumnDef="Required">
               <th  mat-header-cell *matHeaderCellDef > Required </th>
@@ -61,7 +61,7 @@
 </div>
 
 <br>
-<div class="row" id="plnCreateEditForm" *ngIf="plnCreateEditElements" class="panel">
+<div class="row" id="plnCreateEditElements" *ngIf="plnCreateEditElements" class="panel">
 
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>

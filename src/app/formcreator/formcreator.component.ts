@@ -23,7 +23,7 @@ export class FormCreatorComponent {
   pnlElements = false; 
   pnlFormView = false; 
 
-  displayedColumns: string[] = ['FormName', 'Desciption', 'EditDelete'];
+  displayedColumns: string[] = ['FormName', 'Desciption', 'Actions'];
   NewFormModel: FormModel = new FormModel(); 
  
   RoleList!: RoleModel[];
