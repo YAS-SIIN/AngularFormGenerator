@@ -69,9 +69,9 @@ export class FormElementsComponent {
   }
  
   onEdit(SelectedRow: ElementModel){ 
-    this.NewElementModel=SelectedRow;
     this.SaveMode = 'Edit';
     this.onOpenCreateEditFormPanel();
+    this.NewElementModel=SelectedRow;
   }
  
   onDelete(SelectedRow: FormModel){

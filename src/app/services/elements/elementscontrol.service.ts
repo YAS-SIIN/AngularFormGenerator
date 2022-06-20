@@ -9,6 +9,7 @@ export class ElementScontrolService{
     const group: any = {};
 
     inputs.forEach(input => {
+      debugger
       let validator: ValidatorFn[] = input.Required ? [Validators.required] : [];
       switch (input.ElementType) {
         case ElementTypes.InputEmail:

@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { FormModel } from '../models/form-model';
 import { RoleModel } from '../models/role-model';
 import { FormService } from '../services/form/form.service';
+import { AuthService } from '../services/shared/auth.service';
 import { SharedService } from '../services/shared/shared.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class FormCreatorComponent {
 
   _formService: FormService; 
   _sharedService: SharedService;
+  _authService: AuthService;
   
   SaveMode = 'New'; 
   pnlBackForms = false;  
@@ -30,12 +32,11 @@ export class FormCreatorComponent {
   FormList!: FormModel[]; 
 
   constructor(
-    private formBuilder: FormBuilder,
-    formService: FormService,
-     sharedService: SharedService
+    private formBuilder: FormBuilder, formService: FormService, sharedService: SharedService, authService: AuthService
   ) {
     this._formService = formService; 
     this._sharedService = sharedService;
+    this._authService = authService;
   }
 
   ngOnInit(): void { 
@@ -43,9 +44,9 @@ export class FormCreatorComponent {
     this.GetFormList(); 
    
   }
-
+  
   GetRoleList() {  
-    this.RoleList = this._formService.GetRolesList(); 
+    this.RoleList = this._authService.GetRolesList(); 
   }
   GetFormList() {  
     this.FormList = this._formService.GetFormsList(); 
@@ -77,9 +78,9 @@ export class FormCreatorComponent {
   }
   
   onEdit(SelectedRow: FormModel){ 
-    this.NewFormModel=SelectedRow;
     this.SaveMode = 'Edit';
     this.onOpenCreateEditFormPanel();
+    this.NewFormModel=SelectedRow;
   }
  
   onDelete(SelectedRow: FormModel){

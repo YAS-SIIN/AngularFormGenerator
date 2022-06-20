@@ -3,8 +3,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormGroup } from '@angular/forms';
 import { ElementModel } from 'src/app/models/element-model';
 import { FormModel } from 'src/app/models/form-model'; 
+import { UserModel } from 'src/app/models/user-model';
 import { ElementsService } from 'src/app/services/elements/elements.service';
 import { ElementScontrolService } from 'src/app/services/elements/elementscontrol.service';
+import { AuthService } from 'src/app/services/shared/auth.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
  
 @Component({
@@ -19,6 +21,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
   _elementScontrolService: ElementScontrolService; 
   _elementsService: ElementsService; 
   _sharedService: SharedService;
+  _authService: AuthService;
 
   pblBackFormViewer = false;  
   plnFirstPage = true; 
@@ -32,14 +35,14 @@ export class FormViewerComponent implements OnInit, OnChanges {
   form: FormGroup = new FormGroup({});
   NewData : any;
   formlistDate: any[]=[];
+  userLogin!: UserModel; 
  
- 
-   
-
-  constructor(elementScontrolService : ElementScontrolService , elementsService: ElementsService, sharedService: SharedService) {
+  
+  constructor(elementScontrolService : ElementScontrolService , elementsService: ElementsService, sharedService: SharedService, authService: AuthService) {
     this._elementScontrolService = elementScontrolService; 
     this._sharedService = sharedService;
     this._elementsService = elementsService;  
+    this._authService = authService;
    }
  
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,6 +57,8 @@ export class FormViewerComponent implements OnInit, OnChanges {
 
     this.displayedColumns = Object.keys(this.form.value);
     this.displayedColumns.push('Actions');
+
+    this.userLogin = this._authService.GetUserLogin();
   }
 
   onOpenCreateEditFormViewrPanel() {
@@ -82,21 +87,39 @@ export class FormViewerComponent implements OnInit, OnChanges {
   }
   
   onEdit(SelectedRow: any){ 
-    this.NewData=SelectedRow;
+    debugger
      this.SaveMode = 'Edit';
      this.onOpenCreateEditFormViewrPanel();
+     this.NewData=SelectedRow;
+     let ColumnArray = Object.keys(this.form.value);
+     this.form.value.Name='aa22';
+     ColumnArray.map(a=> {
+      if (a != 'Id') {
+        this.form.value[a] == this.NewData[a]
+      }
+     }) 
   }
  
 
   onSubmit() { 
-    this.NewData = this.form.value;
- 
-
+  debugger
     if (this.SaveMode == 'New') {
+
+      this.NewData = this.form.value;
+      let MaxId= 0;
+      if (this.formlistDate.length != 0) {
+        MaxId= Math.max.apply(Math, this.formlistDate.map(o => { return o.Id; }));
+      } 
+      this.NewData.Id=MaxId + 1; 
       this.formlistDate.push(this.NewData); 
+
      } else if (this.SaveMode == 'Edit') { 
+      const selectedId =  this.NewData.Id; 
+      this.NewData = this.form.value;
+      this.NewData.Id = selectedId;
+
        this.formlistDate = this.formlistDate.map(a => {
-         if(a.keys !== this.NewData?.keys){
+         if(a.Id !== +this.NewData.Id){
            return a;
          }
          else{
@@ -107,6 +130,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
 
     this.onBack();
     this.SaveMode = 'New'; 
+    this.NewData = [];
 
     this._sharedService.toastSuccess('Action Done');
   }

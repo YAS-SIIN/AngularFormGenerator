@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms'; 
+import { Roles } from './models/role-model';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,6 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
  
   constructor(private formBuilder: FormBuilder) {
  

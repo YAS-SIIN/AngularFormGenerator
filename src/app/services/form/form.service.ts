@@ -2,16 +2,14 @@
 import { Injectable } from '@angular/core';
 
 import * as forms from '../datafile/forms.json';
-import { FormModel } from 'src/app/models/form-model';
-import { RoleModel, Roles } from 'src/app/models/role-model';
+import { FormModel } from 'src/app/models/form-model'; 
  
 @Injectable({
   providedIn: 'root',
 })
 export class FormService  {
  
-  formslst!: any;
-  RoleList!: RoleModel[];
+  formslst!: any; 
   FormList!: FormModel[];
  
   constructor() {
@@ -24,15 +22,7 @@ export class FormService  {
     }
     return this.FormList; 
   }
-
-  GetRolesList(): RoleModel[]{
-    this.RoleList = [
-      { RoleName: 'Admin', Id: Roles.Admin },
-      { RoleName: 'User', Id: Roles.User },  
-    ];
-     return this.RoleList; 
-  }
-
+ 
   SaveForm(model: FormModel[]) { 
     return this.FormList = model;
   }
