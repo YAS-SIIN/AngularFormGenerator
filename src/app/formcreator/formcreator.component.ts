@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormModel } from '../models/form-model';
 import { RoleModel } from '../models/role-model';
+import { UserModel } from '../models/user-model';
 import { FormService } from '../services/form/form.service';
 import { AuthService } from '../services/shared/auth.service';
 import { SharedService } from '../services/shared/shared.service';
@@ -27,6 +28,7 @@ export class FormCreatorComponent {
 
   displayedColumns: string[] = ['FormName', 'Desciption', 'Actions'];
   NewFormModel: FormModel = new FormModel(); 
+  userLogin!: UserModel; 
  
   RoleList!: RoleModel[];
   FormList!: FormModel[]; 
@@ -42,7 +44,7 @@ export class FormCreatorComponent {
   ngOnInit(): void { 
     this.GetRoleList();
     this.GetFormList(); 
-   
+    this.GetUserLogin(); 
   }
   
   GetRoleList() {  
@@ -50,6 +52,9 @@ export class FormCreatorComponent {
   }
   GetFormList() {  
     this.FormList = this._formService.GetFormsList(); 
+  }
+  GetUserLogin() {  
+    this.userLogin = this._authService.GetUserLogin();
   }
 
   onOpenCreateEditFormPanel() {
@@ -67,8 +72,7 @@ export class FormCreatorComponent {
     this.pnlElements = false;
     this.pnlFormView = false;
   }
-
-  
+ 
   onOpenFormviewer(SelectedRow: FormModel){
     this.pnlFirstPage = false;
     this.pnlBackForms = true;
