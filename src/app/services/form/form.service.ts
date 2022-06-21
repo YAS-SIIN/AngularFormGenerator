@@ -15,7 +15,7 @@ export class FormService  {
   constructor() {
   }
 
-  GetFormsList(): FormModel[] {
+  getFormsList(): FormModel[] {
     if (this.FormList == undefined || this.FormList == null) {
       this.formslst = forms;
       this.FormList = this.formslst.default;
@@ -23,7 +23,7 @@ export class FormService  {
     return this.FormList; 
   }
  
-  SaveForm(model: FormModel[]) { 
+  saveForm(model: FormModel[]) { 
     return this.FormList = model;
   }
    

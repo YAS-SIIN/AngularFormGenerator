@@ -16,14 +16,14 @@ export class AuthService  {
   constructor() {
   }
  
-  GetRolesList(): RoleModel[]{
+  getRolesList(): RoleModel[]{
     this.RoleList = [
       { RoleName: 'Admin', Id: Roles.Admin },
       { RoleName: 'User', Id: Roles.User },  
     ];
      return this.RoleList; 
   }
-  GetUserLogin(): UserModel{
+  getUserLogin(): UserModel{
     
     this.userLoginDefault = userlogin;
     this.userLoginModel = this.userLoginDefault.default;

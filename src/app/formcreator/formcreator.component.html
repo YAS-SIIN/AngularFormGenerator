@@ -3,7 +3,7 @@
   <div class="grid-toolbars" *ngIf="pnlFirstPage">
     <button mat-raised-button color="primary" (click)="onOpenCreateEditFormPanel()">New {{title}}</button>  
   </div>
-
+ 
   <div class="grid-toolbars" *ngIf="pnlBackForms">
     <button mat-raised-button color="warn" (click)="onBackAll()">Back {{title}}</button>  
   </div>
@@ -13,7 +13,7 @@
 
 <div class="row" id="pnlData" *ngIf="pnlFirstPage" class="panel">
 
-  {{userLogin.Role}}
+  
   <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -41,7 +41,7 @@
               </button> 
               <button mat-raised-button color="primary" (click)="onCreateEditElements(formrow)" aria-label="Example icon-button with a edit icon">
                 Elements
-              </button> 
+              </button>  
               <button *ngIf="userLogin.Role == formrow.Role" mat-raised-button color="primary" (click)="onOpenFormviewer(formrow)" aria-label="Example icon-button with a edit icon">
                 ShowForm
               </button> 

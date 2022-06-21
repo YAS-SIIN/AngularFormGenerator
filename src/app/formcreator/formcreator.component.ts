@@ -42,19 +42,19 @@ export class FormCreatorComponent {
   }
 
   ngOnInit(): void { 
-    this.GetRoleList();
-    this.GetFormList(); 
-    this.GetUserLogin(); 
+    this.getRoleList();
+    this.getFormList(); 
+    this.getUserLogin(); 
   }
   
-  GetRoleList() {  
-    this.RoleList = this._authService.GetRolesList(); 
+  getRoleList() {  
+    this.RoleList = this._authService.getRolesList(); 
   }
-  GetFormList() {  
-    this.FormList = this._formService.GetFormsList(); 
+  getFormList() {  
+    this.FormList = this._formService.getFormsList(); 
   }
-  GetUserLogin() {  
-    this.userLogin = this._authService.GetUserLogin();
+  getUserLogin() {   
+    this.userLogin = this._authService.getUserLogin(); 
   }
 
   onOpenCreateEditFormPanel() {
@@ -91,7 +91,7 @@ export class FormCreatorComponent {
  
     if(confirm('Are you sure?')){
       this.FormList = this.FormList.filter(f =>f.Id != SelectedRow.Id);
-      this._formService.SaveForm(this.FormList);
+      this._formService.saveForm(this.FormList);
   
       this._sharedService.toastSuccess('Action Done');
     }
@@ -107,7 +107,7 @@ export class FormCreatorComponent {
   }
   
   onSubmit() {
-     
+
     if (this.SaveMode == 'New') {
      const MaxId= Math.max.apply(Math, this.FormList.map(o => { return o.Id; }));
      this.NewFormModel.Id=MaxId + 1;
@@ -123,7 +123,7 @@ export class FormCreatorComponent {
       });
     }
     
-    this._formService.SaveForm(this.FormList);
+    this._formService.saveForm(this.FormList);
 
     this.onBackAll();
     this.SaveMode = 'New';

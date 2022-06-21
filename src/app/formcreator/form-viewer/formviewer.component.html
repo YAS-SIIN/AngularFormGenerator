@@ -64,10 +64,12 @@
   </mat-expansion-panel-header>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
+
     <div *ngFor="let element of elementList" class="form-group">
       <app-elementgenerator [input]="element" [form]="form"></app-elementgenerator>
     </div>
 
+    <br>
     <div class="form-group">
       <button  mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit {{title}}</button>
     </div>

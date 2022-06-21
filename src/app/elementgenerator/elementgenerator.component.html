@@ -39,11 +39,12 @@
     </div>
 
     <div *ngSwitchCase="'SelectBox'" class="row">
-  
+     
+
       <mat-form-field class="example-full-width" appearance="fill">
       <mat-label [attr.for]="input.FieldName">{{input.DisplayName}}</mat-label>
-      <mat-select matInput [id]="input.FieldName" [formControlName]="input.FieldName">
-        <option *ngFor="let opt of input.Options" [value]="opt.key">{{opt.value}}</option>
+      <mat-select class="form-control" [id]="input.FieldName" [formControlName]="input.FieldName">
+        <mat-option *ngFor="let opt of input.Options" [value]="opt.key">{{opt.value}}</mat-option >
       </mat-select>
     </mat-form-field>  
     </div>
@@ -56,13 +57,11 @@
   
     </div>
 
-    <div *ngSwitchCase="'Radio'" class="row">
-      <mat-form-field class="example-full-width" appearance="fill">
-      
+    <div *ngSwitchCase="'RadioButton'" class="row">
+ 
       <mat-radio-group aria-label="Select an option" [formControlName]="input.FieldName">
         <mat-radio-button *ngFor="let opt of input.Options" [value]="opt.key">{{opt.value}}</mat-radio-button> 
-      </mat-radio-group> 
-    </mat-form-field>  
+      </mat-radio-group>  
     </div>
 
     <div *ngSwitchCase="'InputTextarea'" class="row">

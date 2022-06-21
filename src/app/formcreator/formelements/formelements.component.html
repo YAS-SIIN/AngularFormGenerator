@@ -98,7 +98,7 @@
    
         <mat-form-field class="example-full-width" appearance="fill">
      <mat-label>Element Type</mat-label> 
-     <mat-select required name="ElementType" #refElementType="ngModel" class="form-control" [(ngModel)]="NewElementModel.ElementType"> 
+     <mat-select required name="ElementType" #refElementType="ngModel" class="form-control" [(ngModel)]="NewElementModel.ElementType" (selectionChange)="onElementTypeChange($event.value)" > 
        <mat-option *ngFor="let elementType of elementTypesSource" [value]="elementType.Id">
          {{elementType.ElementName}}
        </mat-option> 
@@ -119,16 +119,18 @@
      </mat-form-field>  
      </div>
      <div class="row"> 
+   
+      <ng-select   [ngModel]="selectedCar" placeholder="Options" id="Options" [items]="controlOptions" bindLabel="value" bindValue="key" [addTag]="addTag"
+      [multiple]="true" formControlName="Options">
+    </ng-select>
+      </div>
+      
+     <div class="row"> 
         <section class="example-section">  
           <mat-checkbox [(ngModel)]="NewElementModel.Required" #refRequired="ngModel" id="Required">Required</mat-checkbox> 
         </section> 
     </div>
-   <div class="row"> 
-    <label class="form-label">Options</label>
-    <ng-select [(ngModel)]="NewElementModel.Options" id="Options" items="editDropdownOptions" bindLabel="value" bindValue="key" addTag="addTagFn"
-    multiple="true" formControlName="options">
-  </ng-select>
-    </div>
+
 <br>
     
     <div Class="row">

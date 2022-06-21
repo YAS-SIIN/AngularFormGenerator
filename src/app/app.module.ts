@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ElementGeneratorComponent } from './elementgenerator/elementgenerator.component';
 import { FormViewerComponent } from './formcreator/form-viewer/formviewer.component';
 import { FormElementsComponent } from './formcreator/formelements/formelements.component';
+import { NgSelectModule } from '@ng-select/ng-select';
  
 
 @NgModule({
@@ -54,8 +55,8 @@ import { FormElementsComponent } from './formcreator/formelements/formelements.c
     MatRadioModule,
     MatCheckboxModule,
  
-    HttpClientModule,
-    
+    NgSelectModule,
+  
     ToastrModule.forRoot(),
   ], 
   providers: [],

@@ -34,8 +34,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
   elementList!: ElementModel[]; 
   form: FormGroup = new FormGroup({});
   NewData : any;
-  formlistDate: any[]=[];
-  userLogin!: UserModel; 
+  formlistDate: any[]=[]; 
  
   
   constructor(elementScontrolService : ElementScontrolService , elementsService: ElementsService, sharedService: SharedService, authService: AuthService) {
@@ -52,13 +51,14 @@ export class FormViewerComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.title = this.SelectedFormModel.FormName;
     debugger
-    this.elementList = this._elementsService.GetFormsList(this.SelectedFormModel.Id); 
+    this.elementList = [];
+    this._elementsService.saveForm( this.elementList);
+    this.elementList = this._elementsService.getFormsList(this.SelectedFormModel.Id); 
     this.form = this._elementScontrolService.toFormGroup(this.elementList);
 
     this.displayedColumns = Object.keys(this.form.value);
     this.displayedColumns.push('Actions');
-
-    this.userLogin = this._authService.GetUserLogin();
+ 
   }
 
   onOpenCreateEditFormViewrPanel() {

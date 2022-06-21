@@ -14,12 +14,14 @@ export class ElementsService  {
   ElementList!: ElementModel[];
   elementTypesList!: ElementTypeModel[];  
 
-  constructor( ) { 
+  constructor(
+ 
+   ) {  
   }
 
-  GetFormsList(FormId: number): ElementModel[] {
-    
-    if (this.ElementList == undefined || this.ElementList == null) {
+  getFormsList(FormId: number): ElementModel[] {
+    debugger
+    if (this.ElementList == undefined || this.ElementList == null || this.ElementList.length == 0) {
  
       this.elementslst = elements;
       this.ElementList = this.elementslst.default;
@@ -34,7 +36,7 @@ export class ElementsService  {
     return this.ElementList; 
   }
  
-  GetElementTypes()  {
+  getElementTypes()  {
  
     this.elementTypesList = [
       { ElementName: 'InputTextbox', Id: ElementTypes.InputTextbox },
@@ -49,7 +51,7 @@ export class ElementsService  {
      return this.elementTypesList;
   }
 
-  SaveForm(model: ElementModel[]) { 
+  saveForm(model: ElementModel[]) { 
     return this.ElementList = model;
   }
    

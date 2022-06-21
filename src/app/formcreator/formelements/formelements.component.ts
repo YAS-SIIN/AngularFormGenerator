@@ -22,6 +22,9 @@ export class FormElementsComponent {
   plnFirstPage = true; 
   plnCreateEditElements = false; 
   pnlShowForms = false; 
+  pnlOptions = false; 
+
+  selectedCar: string="";
 
   displayedColumns: string[] = ['FieldName', 'DisplayName', 'ElementType','Required', 'Actions'];
 
@@ -31,7 +34,9 @@ export class FormElementsComponent {
   NewElementModel: ElementModel = new ElementModel(); 
   ElementList!: ElementModel[]; 
   elementTypesSource!: ElementTypeModel[];
-  editDropdownOptions! : {key: string, value: string, tag?: boolean}[];
+  controlOptions! : {key: string, value: string, tag?: boolean}[];
+  controlOptionslst! : {key: string, value: string, tag?: boolean}[];
+
 
   elementTypesList = ElementTypes;
 
@@ -41,20 +46,35 @@ export class FormElementsComponent {
     this._sharedService = sharedService;
   }
 
-  ngOnInit(): void {  
-    this.GetElementList(); 
-    this.GetElementTypes();
+  ngOnInit(): void {      
+    this.ElementList=[];
+    this._elementsService.saveForm(this.ElementList);
+    this.getElementList(); 
+    this.getElementTypes();
   }
  
-  GetElementList() {  
-   this.ElementList = this._elementsService.GetFormsList(this.SelectedFormModel.Id); 
+  getElementList() {  
+   this.ElementList = this._elementsService.getFormsList(this.SelectedFormModel.Id); 
   }
 
-  GetElementTypes(){
-    debugger;
-    this.elementTypesSource = this._elementsService.GetElementTypes();
+  getElementTypes(){ 
+    this.elementTypesSource = this._elementsService.getElementTypes();
   }
  
+  addTag(name: string) { 
+    debugger
+    const tagObj = { key: name, value: name,  tag: true }; 
+    return tagObj;
+  }
+ 
+  onElementTypeChange(value: number) { 
+    if (value == 6 || value == 5) {
+      this.pnlOptions == true;
+    } else {
+      this.pnlOptions == false;
+    }
+  }
+
   onOpenCreateEditFormPanel() {
     this.plnFirstPage = false; 
     this.pblBackElement = true;
@@ -78,7 +98,7 @@ export class FormElementsComponent {
  
     if(confirm('Are you sure?')){
      this.ElementList = this.ElementList.filter(f =>f.Id != SelectedRow.Id);
-      this._elementsService.SaveForm(this.ElementList);
+      this._elementsService.saveForm(this.ElementList);
   
       this._sharedService.toastSuccess('Action Done');
     }
@@ -92,6 +112,9 @@ export class FormElementsComponent {
   }
   
   onSubmit() {
+    debugger
+    this.NewElementModel.Options = this.controlOptions; 
+
     if (this.SaveMode == 'New') {
       const MaxId= Math.max.apply(Math, this.ElementList.map(o => { return o.Id; }));
       this.NewElementModel.Id=MaxId + 1;
@@ -108,7 +131,7 @@ export class FormElementsComponent {
        });
      }
      
-     this._elementsService.SaveForm(this.ElementList);
+     this._elementsService.saveForm(this.ElementList);
  
      this.onBack();
      this.SaveMode = 'New';
