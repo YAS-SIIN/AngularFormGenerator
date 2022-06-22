@@ -118,12 +118,12 @@
        <textarea matInput [(ngModel)]="NewElementModel.Description" #refDesciption="ngModel" id="Description"></textarea>
      </mat-form-field>  
      </div>
-     <div class="row"> 
-   
-      <ng-select   [ngModel]="selectedCar" placeholder="Options" id="Options" [items]="controlOptions" bindLabel="value" bindValue="key" [addTag]="addTag"
-      [multiple]="true" formControlName="Options">
-    </ng-select>
-      </div>
+     <div class="row" *ngIf="pnlOptions"> 
+      <ng-select [items]="controlOptions" placeholder="Options" id="Options" [(ngModel)]="selectedOptionItem" [multiple]="true" [addTag]="true"></ng-select>
+      {{ selectedOptionItem | json }}
+     </div>
+
+     
       
      <div class="row"> 
         <section class="example-section">  

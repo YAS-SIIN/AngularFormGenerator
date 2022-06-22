@@ -34,8 +34,9 @@ export class FormElementsComponent {
   NewElementModel: ElementModel = new ElementModel(); 
   ElementList!: ElementModel[]; 
   elementTypesSource!: ElementTypeModel[];
-  controlOptions! : {key: string, value: string, tag?: boolean}[];
-  controlOptionslst! : {key: string, value: string, tag?: boolean}[];
+  controlOptions  =  [];
+ 
+  selectedOptionItem: string[] = [];
 
 
   elementTypesList = ElementTypes;
@@ -46,6 +47,7 @@ export class FormElementsComponent {
     this._sharedService = sharedService;
   }
 
+  
   ngOnInit(): void {      
     this.ElementList=[];
     this._elementsService.saveForm(this.ElementList);
@@ -61,21 +63,17 @@ export class FormElementsComponent {
     this.elementTypesSource = this._elementsService.getElementTypes();
   }
  
-  addTag(name: string) { 
-    debugger
-    const tagObj = { key: name, value: name,  tag: true }; 
-    return tagObj;
-  }
- 
   onElementTypeChange(value: number) { 
+    debugger
     if (value == 6 || value == 5) {
-      this.pnlOptions == true;
+      this.pnlOptions = true;
     } else {
-      this.pnlOptions == false;
+      this.pnlOptions = false;
     }
   }
 
-  onOpenCreateEditFormPanel() {
+  onOpenCreateEditFormPanel() { 
+    this.selectedOptionItem=[];
     this.plnFirstPage = false; 
     this.pblBackElement = true;
     this.plnCreateEditElements = true;
@@ -92,6 +90,9 @@ export class FormElementsComponent {
     this.SaveMode = 'Edit';
     this.onOpenCreateEditFormPanel();
     this.NewElementModel=SelectedRow;
+    if(this.NewElementModel.Options){ 
+      this.selectedOptionItem = this.NewElementModel.Options.map(o => o.value); 
+    }
   }
  
   onDelete(SelectedRow: FormModel){
@@ -113,7 +114,8 @@ export class FormElementsComponent {
   
   onSubmit() {
     debugger
-    this.NewElementModel.Options = this.controlOptions; 
+  
+    this.NewElementModel.Options = this.selectedOptionItem.map((o: string,i: number) => ({key: i.toString(), value: o}));; 
 
     if (this.SaveMode == 'New') {
       const MaxId= Math.max.apply(Math, this.ElementList.map(o => { return o.Id; }));
@@ -134,7 +136,8 @@ export class FormElementsComponent {
      this._elementsService.saveForm(this.ElementList);
  
      this.onBack();
-     this.SaveMode = 'New';
+     this.SaveMode = 'New'; 
+    this.selectedOptionItem=[];
      this.NewElementModel = new ElementModel();
  
     this._sharedService.toastSuccess('Action Done');

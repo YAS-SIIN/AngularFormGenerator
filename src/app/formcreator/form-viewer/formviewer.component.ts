@@ -62,6 +62,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
   }
 
   onOpenCreateEditFormViewrPanel() {
+    this.form.reset();
     this.plnFirstPage = false;
     this.plnCreateEditFormViewer = true;
     this.pblBackFormViewer = true; 

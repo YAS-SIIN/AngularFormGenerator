@@ -19,8 +19,7 @@ export class ElementsService  {
    ) {  
   }
 
-  getFormsList(FormId: number): ElementModel[] {
-    debugger
+  getFormsList(FormId: number): ElementModel[] { 
     if (this.ElementList == undefined || this.ElementList == null || this.ElementList.length == 0) {
  
       this.elementslst = elements;
