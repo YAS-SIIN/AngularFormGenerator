@@ -29,7 +29,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
   displayedColumns: string[] = [];
   
   @Input() 
-  SelectedFormModel: FormModel = new FormModel(); 
+  SelectedFormModel!: FormModel; 
     
   elementList!: ElementModel[]; 
   form: FormGroup = new FormGroup({});
@@ -50,7 +50,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
  
   ngOnInit(): void {
     this.title = this.SelectedFormModel.FormName;
-    debugger
+
     this.elementList = [];
     this._elementsService.saveForm( this.elementList);
     this.elementList = this._elementsService.getFormsList(this.SelectedFormModel.Id); 
@@ -88,7 +88,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
   }
   
   onEdit(SelectedRow: any){ 
-    debugger
+    
      this.SaveMode = 'Edit';
      this.onOpenCreateEditFormViewrPanel();
      this.NewData=SelectedRow;
@@ -103,7 +103,7 @@ export class FormViewerComponent implements OnInit, OnChanges {
  
 
   onSubmit() { 
-  debugger
+  
     if (this.SaveMode == 'New') {
 
       this.NewData = this.form.value;

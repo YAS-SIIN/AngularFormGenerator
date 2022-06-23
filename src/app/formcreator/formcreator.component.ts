@@ -27,7 +27,7 @@ export class FormCreatorComponent {
   pnlFormView = false; 
 
   displayedColumns: string[] = ['FormName', 'Desciption', 'Actions'];
-  NewFormModel: FormModel = new FormModel(); 
+  NewFormModel!: FormModel; 
   userLogin!: UserModel; 
  
   RoleList!: RoleModel[];
@@ -62,7 +62,7 @@ export class FormCreatorComponent {
     this.pnlCreateEditForm = true;
     this.pnlBackForms = true;
     this.pnlElements = false;
-    this.NewFormModel = new FormModel();
+    this.NewFormModel = new FormModel;
   }
 
   onBackAll() {
@@ -107,7 +107,7 @@ export class FormCreatorComponent {
   }
   
   onSubmit() {
-
+debugger
     if (this.SaveMode == 'New') {
      const MaxId= Math.max.apply(Math, this.FormList.map(o => { return o.Id; }));
      this.NewFormModel.Id=MaxId + 1;
@@ -127,7 +127,7 @@ export class FormCreatorComponent {
 
     this.onBackAll();
     this.SaveMode = 'New';
-    this.NewFormModel = new FormModel();
+    this.NewFormModel = new FormModel;
 
     this._sharedService.toastSuccess('Action Done');
   }

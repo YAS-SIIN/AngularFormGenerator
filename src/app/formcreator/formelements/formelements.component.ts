@@ -29,9 +29,9 @@ export class FormElementsComponent {
   displayedColumns: string[] = ['FieldName', 'DisplayName', 'ElementType','Required', 'Actions'];
 
   @Input() 
-  SelectedFormModel: FormModel = new FormModel(); 
+  SelectedFormModel!: FormModel; 
   
-  NewElementModel: ElementModel = new ElementModel(); 
+  NewElementModel!: ElementModel; 
   ElementList!: ElementModel[]; 
   elementTypesSource!: ElementTypeModel[];
   controlOptions  =  [];
@@ -49,6 +49,7 @@ export class FormElementsComponent {
 
   
   ngOnInit(): void {      
+
     this.ElementList=[];
     this._elementsService.saveForm(this.ElementList);
     this.getElementList(); 
@@ -64,7 +65,7 @@ export class FormElementsComponent {
   }
  
   onElementTypeChange(value: number) { 
-    debugger
+    
     if (value == 6 || value == 5) {
       this.pnlOptions = true;
     } else {
@@ -77,7 +78,7 @@ export class FormElementsComponent {
     this.plnFirstPage = false; 
     this.pblBackElement = true;
     this.plnCreateEditElements = true;
-    this.NewElementModel = new ElementModel();
+    this.NewElementModel = new ElementModel;
   }
 
   onBack() {
@@ -113,7 +114,6 @@ export class FormElementsComponent {
   }
   
   onSubmit() {
-    debugger
   
     this.NewElementModel.Options = this.selectedOptionItem.map((o: string,i: number) => ({key: i.toString(), value: o}));; 
 
@@ -138,7 +138,7 @@ export class FormElementsComponent {
      this.onBack();
      this.SaveMode = 'New'; 
     this.selectedOptionItem=[];
-     this.NewElementModel = new ElementModel();
+     this.NewElementModel = new ElementModel;
  
     this._sharedService.toastSuccess('Action Done');
   }
